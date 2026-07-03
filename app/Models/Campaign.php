@@ -15,6 +15,17 @@ class Campaign extends Model
     use HasFactory;
 
     /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'deadline' => 'date',
+            'target_amount' => 'integer',
+        ];
+    }
+
+    /**
      * @return HasMany<Donation, $this>
      */
     public function donations(): HasMany

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BankAccountController;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +21,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     // Bank Accounts
     Route::resource('bank-accounts', BankAccountController::class)->except(['show']);
+
+    // Campaigns
+    Route::resource('campaigns', CampaignController::class);
 });
