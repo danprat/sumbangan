@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\BankAccountController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,4 +17,7 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.log
 // Admin Protected
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Bank Accounts
+    Route::resource('bank-accounts', BankAccountController::class)->except(['show']);
 });

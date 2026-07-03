@@ -22,6 +22,12 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{ route('admin.bank-accounts.index') }}"
+                       class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold {{ request()->routeIs('admin.bank-accounts.*') ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+                        Rekening Bank
+                    </a>
+                </li>
                 <li class="mt-auto">
                     <form action="{{ route('admin.logout') }}" method="POST">
                         @csrf
