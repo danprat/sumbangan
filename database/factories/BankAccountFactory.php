@@ -18,7 +18,9 @@ class BankAccountFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'bank_name' => fake()->randomElement(['BCA', 'Mandiri', 'BNI', 'BRI']),
+            'account_name' => fake()->name(),
+            'account_number' => (string) fake()->numerify('##########'),
         ];
     }
 }
