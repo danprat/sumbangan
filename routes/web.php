@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BankAccountController;
+use App\Http\Controllers\Admin\DonationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,4 +25,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     // Campaigns
     Route::resource('campaigns', CampaignController::class);
+
+    // Donations
+    Route::get('donations', [DonationController::class, 'index'])->name('donations.index');
+    Route::get('donations/{donation}', [DonationController::class, 'show'])->name('donations.show');
+    Route::post('donations/{donation}/verify', [DonationController::class, 'verify'])->name('donations.verify');
+    Route::post('donations/{donation}/reject', [DonationController::class, 'reject'])->name('donations.reject');
 });

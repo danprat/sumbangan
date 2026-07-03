@@ -29,6 +29,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.donations.index') }}"
+                       class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold {{ request()->routeIs('admin.donations.*') ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
+                        Donasi
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.bank-accounts.index') }}"
                        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold {{ request()->routeIs('admin.bank-accounts.*') ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white' }}">
                         Rekening Bank
