@@ -81,6 +81,69 @@
 
     <!-- Sidebar -->
     <div class="lg:col-span-1">
+        @if(!$campaign->isCompleted())
+            <!-- Donation Form -->
+            <div class="rounded-lg bg-white p-6 shadow">
+                <h3 class="text-lg font-semibold text-gray-900">Form Donasi</h3>
+
+                @if ($errors->any())
+                    <div class="mt-3 rounded-md bg-red-50 p-3 text-sm text-red-700">
+                        <ul class="list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="mt-3 rounded-md bg-red-50 p-3 text-sm text-red-700">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                <form action="{{ route('campaigns.donate', $campaign->slug) }}" method="POST" enctype="multipart/form-data" class="mt-4 space-y-4">
+                    @csrf
+
+                    <div>
+                        <label for="donor_name" class="block text-sm font-medium text-gray-900">Nama</label>
+                        <input type="text" name="donor_name" id="donor_name" value="{{ old('donor_name') }}" required
+                               class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <label for="donor_email" class="block text-sm font-medium text-gray-900">Email</label>
+                        <input type="email" name="donor_email" id="donor_email" value="{{ old('donor_email') }}"
+                               class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <label for="donor_phone" class="block text-sm font-medium text-gray-900">No. Telepon</label>
+                        <input type="text" name="donor_phone" id="donor_phone" value="{{ old('donor_phone') }}"
+                               class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <label for="amount" class="block text-sm font-medium text-gray-900">Nominal (Rp)</label>
+                        <input type="number" name="amount" id="amount" value="{{ old('amount') }}" required min="1000" step="1"
+                               class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <label for="proof_image" class="block text-sm font-medium text-gray-900">Bukti Transfer</label>
+                        <input type="file" name="proof_image" id="proof_image" accept="image/jpeg,image/png,image/jpg" required
+                               class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700">
+                        <p class="mt-1 text-xs text-gray-500">JPG/PNG, maksimal 2MB.</p>
+                    </div>
+
+                    <button type="submit"
+                            class="w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+                        Kirim Donasi
+                    </button>
+                </form>
+            </div>
+        @endif
+
         <!-- Bank Accounts -->
         @if($bankAccounts->isNotEmpty())
             <div class="mt-6 rounded-lg bg-white p-6 shadow">

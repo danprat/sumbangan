@@ -14,37 +14,36 @@
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         @if ($errors->any())
-            <div class="mb-4 rounded-md bg-red-50 p-4 text-sm text-red-700">
+            <x-admin.flash type="error" class="mb-4">
                 {{ $errors->first() }}
-            </div>
+            </x-admin.flash>
         @endif
 
+        <x-admin.card class="p-6">
         <form action="{{ route('admin.login') }}" method="POST" class="space-y-6">
             @csrf
 
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
                 <div class="mt-2">
-                    <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus
-                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                    <x-admin.input type="email" name="email" :value="old('email')" required autofocus />
                 </div>
             </div>
 
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-900">Password</label>
                 <div class="mt-2">
-                    <input type="password" name="password" id="password" required
-                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                    <x-admin.input type="password" name="password" required />
                 </div>
             </div>
 
             <div>
-                <button type="submit"
-                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <x-admin.button variant="primary" type="submit" class="flex w-full justify-center">
                     Login
-                </button>
+                </x-admin.button>
             </div>
         </form>
+        </x-admin.card>
     </div>
 </div>
 </body>

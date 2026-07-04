@@ -43,10 +43,9 @@
                 <li class="mt-auto">
                     <form action="{{ route('admin.logout') }}" method="POST">
                         @csrf
-                        <button type="submit"
-                                class="group flex w-full gap-x-3 rounded-md p-2 text-sm font-semibold text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <x-admin.button variant="secondary" type="submit" class="w-full justify-start gap-x-3">
                             Logout
-                        </button>
+                        </x-admin.button>
                     </form>
                 </li>
             </ul>
@@ -56,15 +55,15 @@
     <!-- Main content -->
     <main class="flex-1 overflow-y-auto p-8">
         @if (session('success'))
-            <div class="mb-6 rounded-md bg-green-50 p-4 text-sm text-green-700">
+            <x-admin.flash type="success" class="mb-6">
                 {{ session('success') }}
-            </div>
+            </x-admin.flash>
         @endif
 
         @if (session('error'))
-            <div class="mb-6 rounded-md bg-red-50 p-4 text-sm text-red-700">
+            <x-admin.flash type="error" class="mb-6">
                 {{ session('error') }}
-            </div>
+            </x-admin.flash>
         @endif
 
         @yield('content')

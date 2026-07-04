@@ -6,12 +6,10 @@
 <div class="max-w-2xl">
     <div class="sm:flex sm:items-center sm:justify-between">
         <h1 class="text-2xl font-bold tracking-tight text-gray-900">Detail Donasi</h1>
-        <a href="{{ route('admin.donations.index') }}" class="text-sm text-indigo-600 hover:text-indigo-500">
-            &larr; Kembali
-        </a>
+        <x-admin.button as="a" href="{{ route('admin.donations.index') }}" variant="secondary">&larr; Kembali</x-admin.button>
     </div>
 
-    <div class="mt-6 overflow-hidden rounded-lg bg-white shadow">
+    <x-admin.card class="mt-6 overflow-hidden">
         <div class="px-6 py-5">
             <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
                 <div>
@@ -34,11 +32,11 @@
                     <dt class="text-sm font-medium text-gray-500">Status</dt>
                     <dd class="mt-1 text-sm">
                         @if($donation->status === 'pending')
-                            <span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">Pending</span>
+                            <x-admin.badge status="pending">Pending</x-admin.badge>
                         @elseif($donation->status === 'verified')
-                            <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">Diverifikasi</span>
+                            <x-admin.badge status="verified">Diverifikasi</x-admin.badge>
                         @else
-                            <span class="inline-flex items-center rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-700">Ditolak</span>
+                            <x-admin.badge status="rejected">Ditolak</x-admin.badge>
                         @endif
                     </dd>
                 </div>
@@ -62,23 +60,24 @@
         </div>
 
         <div class="px-6 py-4">
-            <dt class="text-sm font-medium text-gray-500 mb-2">Bukti Transfer</dt>
+            <dt class="mb-2 text-sm font-medium text-gray-500">Bukti Transfer</dt>
             <dd>
-                <img src="{{ Storage::disk('public')->url($donation->proof_image_path) }}"
-                     alt="Bukti Transfer"
-                     class="max-w-md rounded-md shadow">
+                <a href="{{ Storage::disk('public')->url($donation->proof_image_path) }}" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ Storage::disk('public')->url($donation->proof_image_path) }}"
+                         alt="Bukti Transfer"
+                         class="max-w-md rounded-md shadow hover:opacity-75 transition-opacity cursor-pointer">
+                </a>
             </dd>
         </div>
-    </div>
+    </x-admin.card>
 
     @if($donation->status === 'pending')
     <div class="mt-6 flex gap-x-3">
         <form action="{{ route('admin.donations.verify', $donation) }}" method="POST">
             @csrf
-            <button type="submit"
-                    class="rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500">
+            <x-admin.button variant="success" type="submit">
                 Verifikasi Donasi
-            </button>
+            </x-admin.button>
         </form>
 
         <button type="button" onclick="document.getElementById('reject-form').classList.toggle('hidden')"
@@ -93,16 +92,13 @@
             <div>
                 <label for="admin_notes" class="block text-sm font-medium text-gray-900">Alasan Penolakan</label>
                 <div class="mt-2">
-                    <textarea name="admin_notes" id="admin_notes" rows="3" required
-                              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-red-600 sm:text-sm"
-                              placeholder="Jelaskan alasan donasi ditolak...">{{ old('admin_notes') }}</textarea>
+                    <x-admin.input type="textarea" name="admin_notes" rows="3" placeholder="Jelaskan alasan donasi ditolak..." />
                 </div>
                 @error('admin_notes') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
-            <button type="submit"
-                    class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">
+            <x-admin.button variant="danger" type="submit">
                 Konfirmasi Penolakan
-            </button>
+            </x-admin.button>
         </form>
     </div>
     @endif

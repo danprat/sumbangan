@@ -10,20 +10,19 @@
             <p class="mt-1 text-sm text-gray-500">Daftar campaign penggalangan dana.</p>
         </div>
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-            <a href="{{ route('admin.campaigns.create') }}"
-               class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+            <x-admin.button as="a" href="{{ route('admin.campaigns.create') }}" variant="primary">
                 Buat Campaign
-            </a>
+            </x-admin.button>
         </div>
     </div>
 
-    <div class="mt-8 overflow-hidden rounded-lg bg-white shadow">
+    <x-admin.card class="mt-8 overflow-hidden">
         @if($campaigns->isEmpty())
-            <div class="p-6 text-center text-sm text-gray-500">
+            <x-admin.empty-state>
                 Belum ada campaign. Klik "Buat Campaign" untuk memulai.
-            </div>
+            </x-admin.empty-state>
         @else
-            <table class="min-w-full divide-y divide-gray-200">
+            <x-admin.table>
                 <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Judul</th>
@@ -51,9 +50,9 @@
                         <td class="px-6 py-4 text-sm text-gray-500">{{ \Carbon\Carbon::parse($campaign->deadline)->format('d M Y') }}</td>
                         <td class="px-6 py-4 text-sm">
                             @if($campaign->isCompleted())
-                                <span class="inline-flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">Selesai</span>
+                                <x-admin.badge status="neutral">Selesai</x-admin.badge>
                             @else
-                                <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">Aktif</span>
+                                <x-admin.badge status="verified">Aktif</x-admin.badge>
                             @endif
                         </td>
                         <td class="px-6 py-4 text-sm text-right space-x-3">
@@ -67,8 +66,8 @@
                     </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </x-admin.table>
         @endif
-    </div>
+    </x-admin.card>
 </div>
 @endsection

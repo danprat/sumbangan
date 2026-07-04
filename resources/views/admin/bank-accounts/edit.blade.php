@@ -13,8 +13,7 @@
         <div>
             <label for="bank_name" class="block text-sm font-medium text-gray-900">Nama Bank</label>
             <div class="mt-2">
-                <input type="text" name="bank_name" id="bank_name" value="{{ old('bank_name', $bankAccount->bank_name) }}" required
-                       class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                <x-admin.input type="text" name="bank_name" :value="old('bank_name', $bankAccount->bank_name)" required />
             </div>
             @error('bank_name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
         </div>
@@ -22,8 +21,7 @@
         <div>
             <label for="account_name" class="block text-sm font-medium text-gray-900">Nama Pemilik Rekening</label>
             <div class="mt-2">
-                <input type="text" name="account_name" id="account_name" value="{{ old('account_name', $bankAccount->account_name) }}" required
-                       class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                <x-admin.input type="text" name="account_name" :value="old('account_name', $bankAccount->account_name)" required />
             </div>
             @error('account_name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
         </div>
@@ -31,21 +29,18 @@
         <div>
             <label for="account_number" class="block text-sm font-medium text-gray-900">Nomor Rekening</label>
             <div class="mt-2">
-                <input type="text" name="account_number" id="account_number" value="{{ old('account_number', $bankAccount->account_number) }}" required
-                       class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                <x-admin.input type="text" name="account_number" :value="old('account_number', $bankAccount->account_number)" required />
             </div>
             @error('account_number') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
         </div>
 
         <div class="flex gap-x-3">
-            <button type="submit"
-                    class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+            <x-admin.button type="submit" variant="primary">
                 Simpan
-            </button>
-            <a href="{{ route('admin.bank-accounts.index') }}"
-               class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            </x-admin.button>
+            <x-admin.button as="a" href="{{ route('admin.bank-accounts.index') }}" variant="secondary">
                 Batal
-            </a>
+            </x-admin.button>
         </div>
     </form>
 </div>

@@ -30,13 +30,13 @@
         </a>
     </div>
 
-    <div class="mt-6 overflow-hidden rounded-lg bg-white shadow">
+    <x-admin.card class="mt-6 overflow-hidden">
         @if($donations->isEmpty())
-            <div class="p-6 text-center text-sm text-gray-500">
+            <x-admin.empty-state>
                 Tidak ada donasi.
-            </div>
+            </x-admin.empty-state>
         @else
-            <table class="min-w-full divide-y divide-gray-200">
+            <x-admin.table>
                 <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Donatur</th>
@@ -55,19 +55,21 @@
                         <td class="px-6 py-4 text-sm text-gray-900">Rp {{ number_format($donation->amount, 0, ',', '.') }}</td>
                         <td class="px-6 py-4 text-sm">
                             @if($donation->status === 'pending')
-                                <span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-700">Pending</span>
+                                <x-admin.badge status="pending">Pending</x-admin.badge>
                             @elseif($donation->status === 'verified')
-                                <span class="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">Diverifikasi</span>
+                                <x-admin.badge status="verified">Diverifikasi</x-admin.badge>
                             @else
-                                <span class="inline-flex items-center rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-700">Ditolak</span>
+                                <x-admin.badge status="rejected">Ditolak</x-admin.badge>
                             @endif
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-500">{{ $donation->created_at->format('d M Y H:i') }}</td>
-                        <td class="px-6 py-4 text-sm text-right">
-                            <a href="{{ route('admin.donations.show', $donation) }}" class="font-medium text-indigo-600 hover:text-indigo-500">Detail</a>
+                        <td class="px-6 py-4 text-sm text-right space-x-2">
+                            <x-admin.button as="a" href="{{ route('admin.donations.show', $donation) }}" variant="secondary">
+                                Detail
+                            </x-admin.button>
                             @if($donation->status === 'pending')
                                 <button onclick="document.getElementById('verify-form-{{ $donation->id }}').submit()"
-                                        class="ml-2 font-medium text-green-600 hover:text-green-500">Verifikasi</button>
+                                        class="font-medium text-green-600 hover:text-green-500">Verifikasi</button>
                                 <form id="verify-form-{{ $donation->id }}" action="{{ route('admin.donations.verify', $donation) }}" method="POST" class="hidden">
                                     @csrf
                                 </form>
@@ -76,12 +78,12 @@
                     </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </x-admin.table>
 
-            <div class="px-6 py-4 border-t border-gray-200">
+            <div class="border-t border-gray-200 px-6 py-4">
                 {{ $donations->links() }}
             </div>
         @endif
-    </div>
+    </x-admin.card>
 </div>
 @endsection
