@@ -44,6 +44,8 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 ## Documentation Files
 
 - You must only create documentation files if explicitly requested by the user.
+- `docs/solutions/` — documented fixes to past problems (bugs, best practices, workflow patterns), organized by topic with YAML frontmatter (`module`, `tags`, `problem_type`). Relevant when implementing or debugging in documented areas.
+- `CONCEPTS.md` — shared domain vocabulary for the project. Read when orienting to the codebase or before discussing domain concepts.
 
 ## Replies
 
