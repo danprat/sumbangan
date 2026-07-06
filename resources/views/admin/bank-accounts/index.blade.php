@@ -3,47 +3,48 @@
 @section('title', 'Rekening Bank')
 
 @section('content')
-<div>
-    <div class="sm:flex sm:items-center">
-        <div class="sm:flex-auto">
-            <h1 class="text-2xl font-bold tracking-tight text-gray-900">Rekening Bank</h1>
-            <p class="mt-1 text-sm text-gray-500">Daftar rekening bank yang ditampilkan di halaman campaign sebagai tujuan transfer.</p>
+<div class="space-y-lg">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <h1 class="text-display-lg-mobile font-display-lg text-on-background">Rekening Bank</h1>
+            <p class="mt-2 text-body-md text-on-surface-variant">Kelola rekening tujuan transfer yang tampil di halaman campaign publik.</p>
         </div>
-        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-            <x-admin.button as="a" href="{{ route('admin.bank-accounts.create') }}" variant="primary">
-                Tambah Rekening
-            </x-admin.button>
-        </div>
+        <x-admin.button as="a" href="{{ route('admin.bank-accounts.create') }}" variant="primary">
+            <span class="material-symbols-outlined text-lg">add</span>
+            Tambah Rekening
+        </x-admin.button>
     </div>
 
-    <x-admin.card class="mt-8 overflow-hidden">
+    <x-admin.card class="overflow-hidden">
         @if($bankAccounts->isEmpty())
             <x-admin.empty-state>
                 Belum ada rekening bank. Klik "Tambah Rekening" untuk menambahkan.
             </x-admin.empty-state>
         @else
             <x-admin.table>
-                <thead class="bg-gray-50">
+                <thead class="bg-surface-container-low text-label-sm font-label-sm uppercase text-on-surface-variant">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Bank</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama Pemilik</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nomor Rekening</th>
-                        <th scope="col" class="relative px-6 py-3"><span class="sr-only">Aksi</span></th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Bank</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Nama Pemilik</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Nomor Rekening</th>
+                        <th scope="col" class="px-6 py-4 text-right font-semibold">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200">
+                <tbody class="divide-y divide-outline-variant/40">
                     @foreach($bankAccounts as $account)
-                    <tr>
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $account->bank_name }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $account->account_name }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $account->account_number }}</td>
-                        <td class="px-6 py-4 text-sm text-right space-x-2">
-                            <x-admin.button as="a" href="{{ route('admin.bank-accounts.edit', $account) }}" variant="secondary">Edit</x-admin.button>
-                            <form action="{{ route('admin.bank-accounts.destroy', $account) }}" method="POST" class="inline" onsubmit="return confirm('Hapus rekening ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <x-admin.button type="submit" variant="danger">Hapus</x-admin.button>
-                            </form>
+                    <tr class="hover:bg-surface-container/30 transition-colors">
+                        <td class="px-6 py-5 font-semibold text-on-background">{{ $account->bank_name }}</td>
+                        <td class="px-6 py-5 text-on-surface-variant">{{ $account->account_name }}</td>
+                        <td class="px-6 py-5 text-on-surface-variant">{{ $account->account_number }}</td>
+                        <td class="px-6 py-5">
+                            <div class="flex items-center justify-end gap-3">
+                                <x-admin.button as="a" href="{{ route('admin.bank-accounts.edit', $account) }}" variant="secondary">Edit</x-admin.button>
+                                <form action="{{ route('admin.bank-accounts.destroy', $account) }}" method="POST" onsubmit="return confirm('Hapus rekening ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <x-admin.button type="submit" variant="danger">Hapus</x-admin.button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

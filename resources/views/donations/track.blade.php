@@ -3,73 +3,107 @@
 @section('title', 'Lacak Donasi')
 
 @section('content')
-<div class="mx-auto max-w-lg">
-    <div class="rounded-lg bg-white p-8 shadow">
-        <h1 class="text-xl font-bold text-gray-900">Status Donasi</h1>
+@php
+    $statusLabel = match ($donation->status) {
+        'verified' => 'Diverifikasi',
+        'rejected' => 'Ditolak',
+        default => 'Menunggu Verifikasi',
+    };
 
-        <!-- Status Badge -->
-        <div class="mt-4">
-            @if($donation->status === 'verified')
-                <span class="inline-flex items-center rounded-md bg-green-50 px-3 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                    Diverifikasi
-                </span>
-            @elseif($donation->status === 'rejected')
-                <span class="inline-flex items-center rounded-md bg-red-50 px-3 py-1 text-sm font-medium text-red-700 ring-1 ring-inset ring-red-600/20">
-                    Ditolak
-                </span>
-            @else
-                <span class="inline-flex items-center rounded-md bg-yellow-50 px-3 py-1 text-sm font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/20">
-                    Menunggu Verifikasi
-                </span>
-            @endif
+    $statusClasses = match ($donation->status) {
+        'verified' => 'bg-[#e6f4ea] text-[#137333] border-[#ceead6]',
+        'rejected' => 'bg-error-container text-on-error-container border-[#f2b8b5]',
+        default => 'bg-[#fff8e1] text-[#8d6e00] border-[#f5df95]',
+    };
+
+    $statusIcon = match ($donation->status) {
+        'verified' => 'check_circle',
+        'rejected' => 'cancel',
+        default => 'schedule',
+    };
+@endphp
+
+<main class="flex-grow flex flex-col items-center justify-center py-xl px-margin-mobile md:px-margin-desktop w-full max-w-max-width mx-auto">
+    <div class="text-center mb-lg max-w-2xl mx-auto">
+        <h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-surface mb-xs">Track Your Impact</h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">Status verifikasi donasi Anda ditampilkan di sini, lengkap dengan detail kontribusi dan kampanye yang didukung.</p>
+    </div>
+
+    <div class="w-full max-w-3xl bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-surface-container-low transition-opacity duration-300 opacity-100" id="resultsSection">
+        <div class="flex flex-col gap-sm md:flex-row md:justify-between md:items-start mb-lg border-b border-surface-container pb-sm">
+            <div>
+                <h2 class="font-headline-md text-headline-md text-on-surface mb-base">Donation Status</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant font-mono break-all">Token: {{ $donation->token }}</p>
+            </div>
+            <div class="{{ $statusClasses }} font-label-sm text-label-sm px-3 py-1 rounded flex items-center gap-xs border w-fit">
+                <span class="material-symbols-outlined text-[16px]">{{ $statusIcon }}</span>
+                {{ $statusLabel }}
+            </div>
         </div>
 
-        <!-- Donation Details -->
-        <dl class="mt-6 divide-y divide-gray-100">
-            <div class="px-0 py-3 sm:grid sm:grid-cols-3 sm:gap-4">
-                <dt class="text-sm font-medium text-gray-500">Campaign</dt>
-                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                    <a href="{{ route('campaigns.show', $donation->campaign->slug) }}" class="text-indigo-600 hover:text-indigo-500">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-md mb-lg">
+            <div class="bg-surface-container-low p-sm rounded-lg">
+                <span class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">Nama Donatur</span>
+                <span class="block font-body-lg text-body-lg text-on-surface font-semibold">{{ $donation->donor_name }}</span>
+            </div>
+            <div class="bg-surface-container-low p-sm rounded-lg">
+                <span class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">Nominal Donasi</span>
+                <span class="block font-body-lg text-body-lg text-on-surface font-semibold">Rp {{ number_format($donation->amount, 0, ',', '.') }}</span>
+            </div>
+            <div class="bg-surface-container-low p-sm rounded-lg md:col-span-2 flex flex-col md:flex-row gap-sm items-center">
+                @if($donation->campaign->image_path)
+                    <img
+                        alt="{{ $donation->campaign->title }}"
+                        class="w-24 h-24 rounded-lg object-cover flex-shrink-0 bg-surface-container-high"
+                        src="{{ Storage::disk('public')->url($donation->campaign->image_path) }}"
+                    />
+                @else
+                    <div class="w-24 h-24 rounded-lg flex items-center justify-center flex-shrink-0 bg-surface-container-high text-primary">
+                        <span class="material-symbols-outlined text-4xl">volunteer_activism</span>
+                    </div>
+                @endif
+                <div>
+                    <span class="block font-label-sm text-label-sm text-on-surface-variant mb-xs">Kampanye Didukung</span>
+                    <a href="{{ route('campaigns.show', $donation->campaign->slug) }}" class="block font-body-lg text-body-lg text-on-surface font-semibold mb-xs hover:text-primary transition-colors">
                         {{ $donation->campaign->title }}
                     </a>
-                </dd>
-            </div>
-
-            <div class="px-0 py-3 sm:grid sm:grid-cols-3 sm:gap-4">
-                <dt class="text-sm font-medium text-gray-500">Nama Donatur</dt>
-                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $donation->donor_name }}</dd>
-            </div>
-
-            <div class="px-0 py-3 sm:grid sm:grid-cols-3 sm:gap-4">
-                <dt class="text-sm font-medium text-gray-500">Nominal</dt>
-                <dd class="mt-1 text-sm font-semibold text-indigo-600 sm:col-span-2 sm:mt-0">Rp {{ number_format($donation->amount, 0, ',', '.') }}</dd>
-            </div>
-
-            <div class="px-0 py-3 sm:grid sm:grid-cols-3 sm:gap-4">
-                <dt class="text-sm font-medium text-gray-500">Tanggal Donasi</dt>
-                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $donation->created_at->format('d M Y H:i') }}</dd>
-            </div>
-
-            @if($donation->status === 'verified' && $donation->verified_at)
-                <div class="px-0 py-3 sm:grid sm:grid-cols-3 sm:gap-4">
-                    <dt class="text-sm font-medium text-gray-500">Diverifikasi Pada</dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ $donation->verified_at->format('d M Y H:i') }}</dd>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Lacak kampanye ini kembali kapan saja melalui halaman detail kampanye.</p>
                 </div>
-            @endif
+            </div>
+        </div>
 
-            @if($donation->status === 'rejected' && $donation->admin_notes)
-                <div class="px-0 py-3 sm:grid sm:grid-cols-3 sm:gap-4">
-                    <dt class="text-sm font-medium text-gray-500">Catatan Admin</dt>
-                    <dd class="mt-1 text-sm text-red-600 sm:col-span-2 sm:mt-0">{{ $donation->admin_notes }}</dd>
+        <div class="border-t border-surface-container pt-md">
+            <h3 class="font-label-md text-label-md text-on-surface-variant mb-sm">Timeline Donasi</h3>
+            <div class="relative border-l-2 border-surface-container-high ml-sm space-y-md pb-xs">
+                @if($donation->status === 'rejected' && $donation->admin_notes)
+                    <div class="relative pl-sm">
+                        <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-error border-2 border-surface-container-lowest"></span>
+                        <p class="font-label-md text-label-md text-on-surface font-semibold">Donasi Ditolak</p>
+                        <p class="font-label-sm text-label-sm text-on-surface-variant">{{ $donation->updated_at->format('d M Y • H:i') }}</p>
+                        <p class="mt-xs font-body-md text-body-md text-on-surface-variant">{{ $donation->admin_notes }}</p>
+                    </div>
+                @elseif($donation->status === 'verified' && $donation->verified_at)
+                    <div class="relative pl-sm">
+                        <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-secondary border-2 border-surface-container-lowest"></span>
+                        <p class="font-label-md text-label-md text-on-surface font-semibold">Donasi Diverifikasi</p>
+                        <p class="font-label-sm text-label-sm text-on-surface-variant">{{ $donation->verified_at->format('d M Y • H:i') }}</p>
+                    </div>
+                @endif
+
+                <div class="relative pl-sm">
+                    <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full {{ $donation->status === 'pending' ? 'bg-secondary' : 'bg-outline-variant' }} border-2 border-surface-container-lowest"></span>
+                    <p class="font-label-md text-label-md text-on-surface font-semibold">Donasi Diterima</p>
+                    <p class="font-label-sm text-label-sm text-on-surface-variant">{{ $donation->created_at->format('d M Y • H:i') }}</p>
                 </div>
-            @endif
-        </dl>
+            </div>
+        </div>
 
-        <div class="mt-6">
-            <a href="{{ route('campaigns.show', $donation->campaign->slug) }}" class="text-sm text-gray-500 hover:text-indigo-600">
-                &larr; Kembali ke Campaign
+        <div class="mt-md">
+            <a href="{{ route('campaigns.show', $donation->campaign->slug) }}" class="inline-flex items-center gap-xs text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                Kembali ke Campaign
             </a>
         </div>
     </div>
-</div>
+</main>
 @endsection

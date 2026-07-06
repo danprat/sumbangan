@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class CampaignTest extends TestCase
@@ -18,6 +19,8 @@ class CampaignTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        config(['app.url' => 'http://localhost']);
+        URL::forceRootUrl('http://localhost');
         $this->admin = User::factory()->create();
     }
 

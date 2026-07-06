@@ -2,7 +2,11 @@
   "mcpServers": {
     "laravel-boost": {
       "command": "/Applications/MAMP/bin/php/php8.3.30/bin/php",
-      "args": ["/Applications/MAMP/htdocs/sumbanngan/artisan", "boost:mcp"]
+      "args": [
+        "/Applications/MAMP/htdocs/sumbanngan/artisan",
+        "boost:mcp"
+      ],
+      "directTools": true
     }
   }
 }

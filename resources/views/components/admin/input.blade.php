@@ -8,6 +8,7 @@
 
 @php
 $id = $id ?? $name;
+$baseClasses = 'block w-full rounded-xl border border-outline-variant bg-surface-container-lowest px-4 py-3 text-body-md text-on-background placeholder:text-on-surface-variant/80 shadow-sm transition focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20';
 @endphp
 
 @if ($type === 'textarea')
@@ -15,14 +16,14 @@ $id = $id ?? $name;
         name="{{ $name }}"
         id="{{ $id }}"
         rows="{{ $rows ?? 3 }}"
-        {{ $attributes->merge(['class' => 'block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm']) }}
+        {{ $attributes->merge(['class' => $baseClasses]) }}
     >{{ old($name, $value) }}</textarea>
 @elseif ($type === 'file')
     <input
         type="file"
         name="{{ $name }}"
         id="{{ $id }}"
-        {{ $attributes->merge(['class' => 'block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100']) }}
+        {{ $attributes->merge(['class' => 'block w-full rounded-xl border border-dashed border-outline-variant bg-surface-container-low px-4 py-3 text-body-md text-on-surface-variant file:mr-4 file:rounded-lg file:border-0 file:bg-primary file:px-4 file:py-2 file:text-label-md file:font-semibold file:text-on-primary hover:file:bg-primary-container hover:file:text-on-primary-container']) }}
     />
 @else
     <input
@@ -30,6 +31,6 @@ $id = $id ?? $name;
         name="{{ $name }}"
         id="{{ $id }}"
         value="{{ old($name, $value) }}"
-        {{ $attributes->merge(['class' => 'block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm']) }}
+        {{ $attributes->merge(['class' => $baseClasses]) }}
     />
 @endif

@@ -6,11 +6,19 @@ use App\Models\BankAccount;
 use App\Models\Campaign;
 use App\Models\Donation;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class CampaignPageTest extends TestCase
 {
     use LazilyRefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config(['app.url' => 'http://localhost']);
+        URL::forceRootUrl('http://localhost');
+    }
 
     public function test_homepage_shows_active_campaigns(): void
     {
@@ -23,7 +31,25 @@ class CampaignPageTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Test Campaign');
-        $response->assertSee('Donasi Sekarang');
+        $response->assertSee('Donasi');
+    }
+
+    public function test_homepage_uses_public_disk_image_url_for_campaigns(): void
+    {
+        config(['app.url' => 'http://localhost/sumbanngan/public']);
+        config(['filesystems.disks.public.url' => 'http://localhost/sumbanngan/public/storage']);
+
+        Campaign::factory()->create([
+            'title' => 'Campaign With Image',
+            'image_path' => 'campaigns/example.jpg',
+            'deadline' => now()->addDays(10)->format('Y-m-d'),
+        ]);
+
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $response->assertSee('http://localhost/sumbanngan/public/storage/campaigns/example.jpg', false);
+        $response->assertDontSee('src="/storage/campaigns/example.jpg"', false);
     }
 
     public function test_homepage_shows_completed_campaign_with_detail_link(): void
@@ -34,7 +60,7 @@ class CampaignPageTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Completed Campaign');
-        $response->assertSee('Lihat Detail');
+        $response->assertSee('Donasi');
     }
 
     public function test_campaign_detail_page_shows_info(): void

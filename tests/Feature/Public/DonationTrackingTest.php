@@ -4,11 +4,19 @@ namespace Tests\Feature\Public;
 
 use App\Models\Donation;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class DonationTrackingTest extends TestCase
 {
     use LazilyRefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config(['app.url' => 'http://localhost']);
+        URL::forceRootUrl('http://localhost');
+    }
 
     public function test_valid_token_shows_pending_status(): void
     {

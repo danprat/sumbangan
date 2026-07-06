@@ -1,63 +1,68 @@
 @extends('layouts.app')
 
-@section('title', 'Sumbangan - Wujudkan Kebaikan Hari Ini')
+@section('title', 'Sumbangan - Transparent Giving')
 
 @section('content')
 <!-- Hero Section -->
-<div class="relative bg-white overflow-hidden rounded-3xl shadow-sm mb-12">
-    <div class="max-w-7xl mx-auto">
-        <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 px-6 pt-10 sm:px-8">
-            <main class="mt-10 mx-auto max-w-7xl sm:mt-12 md:mt-16 lg:mt-20 xl:mt-28">
-                <div class="sm:text-center lg:text-left">
-                    <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                        <span class="block xl:inline">Satu Langkah Kecil,</span>
-                        <span class="block text-indigo-600 xl:inline">Perubahan Besar</span>
-                    </h1>
-                    <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                        Mari bersama-sama mewujudkan harapan mereka yang membutuhkan. Setiap donasi Anda memberikan dampak nyata bagi kehidupan sesama.
-                    </p>
-                    <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                        <div class="rounded-md shadow">
-                            <a href="#campaigns" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10 transition">
-                                Mulai Donasi
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-    </div>
-    <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 bg-indigo-50 flex items-center justify-center rounded-l-[100px] hidden lg:flex">
-        <svg class="w-64 h-64 text-indigo-200" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </div>
-</div>
+<section class="max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop py-xl flex flex-col items-center justify-center text-center">
+    <h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary max-w-3xl mb-md">
+        Empower Change Through Transparent Giving.
+    </h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-lg">
+        Join a community committed to institutional stability and radical transparency. Every donation is tracked, verified, and impactful.
+    </p>
+    <a href="#campaigns" class="bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-full hover:bg-primary-container hover:text-on-primary-container transition-all active:scale-95 text-lg inline-block">
+        Start Donating
+    </a>
+</section>
 
-<!-- Campaigns Section -->
-<div id="campaigns">
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">Program Mendesak</h2>
-            <p class="mt-2 text-gray-500">Pilih campaign yang ingin Anda dukung dan salurkan kebaikan Anda.</p>
-        </div>
+<!-- Featured Campaigns -->
+<section id="campaigns" class="max-w-max-width mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+    <div class="flex justify-between items-end mb-lg">
+        <h2 class="font-headline-md text-headline-md text-primary">Featured Campaigns</h2>
+        <a class="font-label-md text-label-md text-primary hover:underline flex items-center gap-xs" href="#">
+            View All <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </a>
     </div>
-
+    
     @if($campaigns->isEmpty())
-        <div class="text-center py-16 bg-white rounded-2xl shadow-sm">
-            <div class="mx-auto h-24 w-24 text-gray-300 flex items-center justify-center">
-                 <svg class="w-16 h-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-            </div>
-            <p class="mt-4 text-gray-500 font-medium">Belum ada campaign yang tersedia.</p>
+        <div class="text-center py-16 bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/30">
+            <p class="font-body-lg text-on-surface-variant">No campaigns available at the moment.</p>
         </div>
     @else
-        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
             @foreach($campaigns as $campaign)
-                <x-campaign-card :campaign="$campaign" />
+                <!-- Campaign Card -->
+                <article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0px_8px_30px_rgba(0,0,0,0.08)] transition-shadow duration-300 flex flex-col h-full border border-outline-variant/30">
+                    <div class="h-48 overflow-hidden">
+                        @if($campaign->image_path)
+                            <img class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" alt="{{ $campaign->title }}" src="{{ Storage::disk('public')->url($campaign->image_path) }}"/>
+                        @else
+                            <div class="w-full h-full bg-surface-variant flex items-center justify-center transition-transform duration-500 hover:scale-105">
+                                <span class="material-symbols-outlined text-4xl text-primary/30">image</span>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="p-md flex flex-col flex-grow">
+                        <h3 class="font-headline-md text-headline-md text-primary mb-xs line-clamp-2">{{ $campaign->title }}</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant mb-md flex-grow line-clamp-3">{{ Str::limit($campaign->description, 100) }}</p>
+                        
+                        <div class="mb-md">
+                            <div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant mb-xs">
+                                <span>Raised: Rp {{ number_format($campaign->totalVerifiedAmount(), 0, ',', '.') }}</span>
+                                <span>Target: Rp {{ number_format($campaign->target_amount, 0, ',', '.') }}</span>
+                            </div>
+                            <div class="h-[12px] bg-progress-track rounded-full overflow-hidden shadow-inner">
+                                <div class="h-full bg-secondary rounded-full" style="width: {{ $campaign->progressPercentage() }}%"></div>
+                            </div>
+                        </div>
+                        <a href="{{ route('campaigns.show', $campaign->slug) }}" class="w-full block text-center bg-primary-container text-on-primary-container font-label-md text-label-md py-sm rounded-full hover:bg-primary hover:text-on-primary transition-all active:scale-95">
+                            Donate Now
+                        </a>
+                    </div>
+                </article>
             @endforeach
         </div>
     @endif
-</div>
+</section>
 @endsection

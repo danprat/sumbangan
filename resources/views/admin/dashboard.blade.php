@@ -3,125 +3,148 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto space-y-8">
-    <header class="flex items-center justify-between">
-        <div>
-            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-            <p class="mt-1 text-sm text-gray-500">Overview performa donasi dan campaign aktif Anda.</p>
-        </div>
-        <div class="flex gap-3">
-            <x-admin.button as="a" href="{{ route('admin.campaigns.create') }}" class="shadow-sm">
-                + Buat Campaign
-            </x-admin.button>
-        </div>
-    </header>
-
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
-        <x-admin.card class="relative overflow-hidden group hover:shadow-md transition-shadow">
-            <div class="p-6">
-                <dt class="flex items-center gap-2 text-sm font-medium text-gray-500">
-                    <svg class="w-5 h-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    Total Donasi Terverifikasi
-                </dt>
-                <dd class="mt-4 text-3xl font-bold tracking-tight text-gray-900">
-                    Rp {{ number_format($totalDonasi, 0, ',', '.') }}
-                </dd>
-            </div>
-            <div class="absolute inset-x-0 bottom-0 h-1 bg-indigo-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform"></div>
-        </x-admin.card>
-
-        <x-admin.card class="relative overflow-hidden group hover:shadow-md transition-shadow">
-            <div class="p-6">
-                <dt class="flex items-center gap-2 text-sm font-medium text-gray-500">
-                    <svg class="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>
-                    Campaign Aktif
-                </dt>
-                <dd class="mt-4 flex items-baseline gap-2">
-                    <span class="text-3xl font-bold tracking-tight text-gray-900">{{ $campaignAktif }}</span>
-                    <span class="text-sm font-medium text-gray-500">campaign</span>
-                </dd>
-            </div>
-            <div class="absolute inset-x-0 bottom-0 h-1 bg-emerald-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform"></div>
-        </x-admin.card>
-
-        <x-admin.card class="relative overflow-hidden group hover:shadow-md transition-shadow">
-            <div class="p-6">
-                <dt class="flex items-center gap-2 text-sm font-medium text-gray-500">
-                    <svg class="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    Donasi Pending
-                </dt>
-                <dd class="mt-4 flex items-baseline gap-2">
-                    <span class="text-3xl font-bold tracking-tight text-amber-600">{{ \App\Models\Donation::where('status', 'pending')->count() }}</span>
-                    <span class="text-sm font-medium text-gray-500">menunggu verifikasi</span>
-                </dd>
-            </div>
-            <div class="absolute inset-x-0 bottom-0 h-1 bg-amber-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform"></div>
-        </x-admin.card>
+<div class="max-w-max-width mx-auto space-y-lg">
+    <!-- Dashboard Header -->
+    <div>
+        <h2 class="text-display-lg-mobile md:text-display-lg font-display-lg text-on-background">Overview</h2>
+        <p class="text-body-lg font-body-lg text-on-surface-variant mt-2">Welcome back. Here is the latest impact data.</p>
     </div>
 
-    <section class="bg-white ring-1 ring-gray-200 rounded-xl shadow-sm overflow-hidden">
-        <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
-            <h2 class="text-base font-semibold text-gray-900">Perlu Verifikasi Segera</h2>
-            <a href="{{ route('admin.donations.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Lihat semua donasi &rarr;</a>
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+        <!-- Stat Card 1 -->
+        <div class="bg-surface-container-lowest p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0px_8px_30px_rgba(0,0,0,0.08)] transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-label-md font-label-md text-on-surface-variant">Total Collections</h3>
+                <div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined">account_balance_wallet</span>
+                </div>
+            </div>
+            <p class="text-headline-md font-headline-md text-on-background">Rp {{ number_format($totalDonasi, 0, ',', '.') }}</p>
+            <p class="text-label-sm font-label-sm text-secondary mt-2 flex items-center gap-1">
+                Verified Donations
+            </p>
         </div>
 
-        @if($donasiPending->isEmpty())
-            <div class="px-6 py-12 text-center">
-                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <h3 class="mt-2 text-sm font-medium text-gray-900">Semua Bersih</h3>
-                <p class="mt-1 text-sm text-gray-500">Tidak ada donasi yang menunggu verifikasi saat ini.</p>
+        <!-- Stat Card 2 -->
+        <div class="bg-surface-container-lowest p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0px_8px_30px_rgba(0,0,0,0.08)] transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-label-md font-label-md text-on-surface-variant">Active Campaigns</h3>
+                <div class="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center text-secondary">
+                    <span class="material-symbols-outlined">volunteer_activism</span>
+                </div>
             </div>
-        @else
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50/50">
-                        <tr>
-                            <th scope="col" class="py-3.5 pl-6 pr-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Donatur</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Campaign</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nominal</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
-                            <th scope="col" class="relative py-3.5 pl-3 pr-6"><span class="sr-only">Aksi</span></th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 bg-white">
-                        @foreach($donasiPending as $donation)
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="whitespace-nowrap py-4 pl-6 pr-3">
-                                <div class="flex items-center">
-                                    <div class="h-8 w-8 shrink-0 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-medium text-xs">
-                                        {{ substr($donation->donor_name, 0, 2) }}
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="font-medium text-gray-900 text-sm">{{ $donation->donor_name }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                <span class="truncate max-w-[200px] inline-block" title="{{ $donation->campaign?->title }}">
-                                    {{ $donation->campaign?->title }}
-                                </span>
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-4">
-                                <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                    Rp {{ number_format($donation->amount, 0, ',', '.') }}
-                                </span>
-                            </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {{ $donation->created_at->diffForHumans() }}
-                            </td>
-                            <td class="relative whitespace-nowrap py-4 pl-3 pr-6 text-right text-sm font-medium">
-                                <x-admin.button as="a" href="{{ route('admin.donations.show', $donation) }}" variant="secondary" class="!py-1.5 !text-xs">
-                                    Verifikasi
-                                </x-admin.button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <p class="text-headline-md font-headline-md text-on-background">{{ $campaignAktif }}</p>
+            <p class="text-label-sm font-label-sm text-on-surface-variant mt-2">Ongoing programs</p>
+        </div>
+
+        <!-- Stat Card 3 -->
+        <div class="bg-surface-container-lowest p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0px_8px_30px_rgba(0,0,0,0.08)] transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-label-md font-label-md text-on-surface-variant">Pending Verifications</h3>
+                <div class="w-10 h-10 rounded-full bg-[#fff3cd] flex items-center justify-center text-[#856404]">
+                    <span class="material-symbols-outlined">pending_actions</span>
+                </div>
             </div>
-        @endif
-    </section>
+            <p class="text-headline-md font-headline-md text-on-background">{{ \App\Models\Donation::where('status', 'pending')->count() }}</p>
+            <p class="text-label-sm font-label-sm text-on-surface-variant mt-2">Requires attention</p>
+        </div>
+
+        <!-- Stat Card 4 -->
+        <div class="bg-surface-container-lowest p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0px_8px_30px_rgba(0,0,0,0.08)] transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-label-md font-label-md text-on-surface-variant">Total Donors</h3>
+                <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined">group</span>
+                </div>
+            </div>
+            <p class="text-headline-md font-headline-md text-on-background">{{ \App\Models\Donation::where('status', 'verified')->distinct('donor_email')->count('donor_email') }}</p>
+            <p class="text-label-sm font-label-sm text-secondary mt-2 flex items-center gap-1">
+                Unique verified donors
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content Area: Bento Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+        <!-- Pending Donations Table -->
+        <div class="lg:col-span-2 bg-surface-container-lowest p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/20">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-headline-md font-headline-md text-on-background">Pending Donations</h3>
+                <a href="{{ route('admin.donations.index') }}" class="text-primary text-label-md font-label-md hover:underline">View All</a>
+            </div>
+            
+            @if($donasiPending->isEmpty())
+                <div class="text-center py-10">
+                    <p class="text-on-surface-variant text-body-md">No pending donations to verify.</p>
+                </div>
+            @else
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-outline-variant/50 text-label-sm font-label-sm text-on-surface-variant">
+                                <th class="pb-3 font-semibold">Donor Name</th>
+                                <th class="pb-3 font-semibold">Campaign</th>
+                                <th class="pb-3 font-semibold">Amount</th>
+                                <th class="pb-3 font-semibold">Date</th>
+                                <th class="pb-3 font-semibold text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-body-md font-body-md text-on-background">
+                            @foreach($donasiPending as $donation)
+                                <tr class="border-b border-outline-variant/30 hover:bg-surface-container/30 transition-colors">
+                                    <td class="py-4 flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-primary font-bold text-label-sm">
+                                            {{ substr($donation->donor_name, 0, 2) }}
+                                        </div>
+                                        {{ $donation->donor_name }}
+                                    </td>
+                                    <td class="py-4 text-sm text-on-surface-variant max-w-[150px] truncate">
+                                        {{ $donation->campaign?->title }}
+                                    </td>
+                                    <td class="py-4 font-semibold">Rp {{ number_format($donation->amount, 0, ',', '.') }}</td>
+                                    <td class="py-4 text-on-surface-variant text-label-md">{{ $donation->created_at->format('M d, Y') }}</td>
+                                    <td class="py-4 text-right">
+                                        <a href="{{ route('admin.donations.show', $donation) }}" class="text-primary text-label-md font-label-md font-semibold hover:text-primary-container transition-colors">Verify</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+        </div>
+
+        <!-- Quick Actions & Secondary Info -->
+        <div class="space-y-gutter">
+            <!-- Quick Actions -->
+            <div class="bg-surface-container-lowest p-md rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-outline-variant/20">
+                <h3 class="text-headline-md font-headline-md text-on-background mb-4">Quick Actions</h3>
+                <div class="space-y-3">
+                    <a href="{{ route('admin.campaigns.create') }}" class="w-full bg-primary text-on-primary text-label-md font-label-md font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-colors shadow-sm">
+                        <span class="material-symbols-outlined">add_circle</span>
+                        New Campaign
+                    </a>
+                    <a href="{{ route('admin.bank-accounts.index') }}" class="w-full border-2 border-primary text-primary text-label-md font-label-md font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-surface-container-high transition-colors">
+                        <span class="material-symbols-outlined">account_balance</span>
+                        Manage Bank Accounts
+                    </a>
+                </div>
+            </div>
+
+            <!-- System Status -->
+            <div class="bg-surface-container p-md rounded-xl border border-outline-variant/20 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 text-surface-tint opacity-10">
+                    <span class="material-symbols-outlined text-[100px]">security</span>
+                </div>
+                <h3 class="text-label-md font-label-md text-on-surface-variant mb-2 relative z-10">System Status</h3>
+                <div class="flex items-center gap-2 mb-1 relative z-10">
+                    <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                    <span class="text-body-md font-body-md text-on-background font-semibold">All systems operational</span>
+                </div>
+                <p class="text-label-sm font-label-sm text-on-surface-variant relative z-10">Last updated: Just now</p>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

@@ -6,13 +6,13 @@
 ])
 
 @php
-$base = 'inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 shadow-sm';
+$base = 'inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-label-md font-label-md font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-60';
 
 $variants = [
-    'primary' => 'bg-indigo-600 text-white hover:bg-indigo-500',
-    'secondary' => 'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50',
-    'success' => 'bg-emerald-600 text-white hover:bg-emerald-500',
-    'danger' => 'bg-red-600 text-white hover:bg-red-500',
+    'primary' => 'bg-primary text-on-primary shadow-sm hover:bg-primary-container hover:text-on-primary-container',
+    'secondary' => 'border border-outline-variant bg-surface-container-lowest text-on-background hover:bg-surface-container',
+    'success' => 'bg-secondary text-on-secondary shadow-sm hover:opacity-90',
+    'danger' => 'bg-error text-on-error shadow-sm hover:opacity-90',
 ];
 
 $variantClasses = $variants[$variant] ?? $variants['primary'];

@@ -4,15 +4,23 @@ namespace Tests\Feature\Admin;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
     use LazilyRefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config(['app.url' => 'http://localhost']);
+        URL::forceRootUrl('http://localhost');
+    }
+
     public function test_admin_can_view_login_page(): void
     {
-        $response = $this->get('/admin/login');
+        $response = $this->get(route('admin.login'));
 
         $response->assertStatus(200);
         $response->assertSee('Admin Login');

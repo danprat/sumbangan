@@ -29,7 +29,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('bank-accounts', BankAccountController::class)->except(['show']);
 
     // Campaigns
-    Route::resource('campaigns', AdminCampaignController::class);
+    Route::resource('campaigns', AdminCampaignController::class)->except(['show']);
 
     // Donations
     Route::get('donations', [AdminDonationController::class, 'index'])->name('donations.index');

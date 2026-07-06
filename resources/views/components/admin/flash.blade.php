@@ -2,8 +2,8 @@
 
 @php
 $types = [
-    'success' => 'rounded-md bg-emerald-50 p-4 text-sm text-emerald-700 border border-emerald-200',
-    'error' => 'rounded-md bg-red-50 p-4 text-sm text-red-700 border border-red-200',
+    'success' => 'rounded-xl border border-secondary/20 bg-secondary-container/60 px-4 py-3 text-body-md text-on-secondary-container',
+    'error' => 'rounded-xl border border-error/20 bg-error-container px-4 py-3 text-body-md text-on-error-container',
 ];
 
 $typeClasses = $types[$type] ?? $types['success'];

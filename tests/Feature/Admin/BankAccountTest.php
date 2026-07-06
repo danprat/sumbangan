@@ -5,6 +5,7 @@ namespace Tests\Feature\Admin;
 use App\Models\BankAccount;
 use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class BankAccountTest extends TestCase
@@ -16,6 +17,8 @@ class BankAccountTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        config(['app.url' => 'http://localhost']);
+        URL::forceRootUrl('http://localhost');
         $this->admin = User::factory()->create();
     }
 

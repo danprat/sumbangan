@@ -6,6 +6,7 @@ use App\Models\Campaign;
 use App\Models\Donation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class DonationVerificationTest extends TestCase
@@ -17,6 +18,8 @@ class DonationVerificationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        config(['app.url' => 'http://localhost']);
+        URL::forceRootUrl('http://localhost');
         $this->admin = User::factory()->create();
     }
 
@@ -38,7 +41,7 @@ class DonationVerificationTest extends TestCase
         Donation::factory(1)->rejected()->create();
 
         $response = $this->actingAs($this->admin)
-            ->get(route('admin.donations.index', ['status' => 'pending']));
+            ->get('/admin/donations?status=pending');
 
         $response->assertStatus(200);
     }
@@ -48,7 +51,7 @@ class DonationVerificationTest extends TestCase
         $donation = Donation::factory()->pending()->create();
 
         $response = $this->actingAs($this->admin)
-            ->post(route('admin.donations.verify', $donation));
+            ->post("/admin/donations/{$donation->id}/verify");
 
         $response->assertRedirect();
         $this->assertDatabaseHas('donations', [
@@ -70,7 +73,7 @@ class DonationVerificationTest extends TestCase
         $donation = Donation::factory()->pending()->for($campaign)->create(['amount' => 500_000]);
 
         $this->actingAs($this->admin)
-            ->post(route('admin.donations.verify', $donation));
+            ->post("/admin/donations/{$donation->id}/verify");
 
         $this->assertEquals(2_500_000, $campaign->fresh()->totalVerifiedAmount());
     }
@@ -80,7 +83,7 @@ class DonationVerificationTest extends TestCase
         $donation = Donation::factory()->pending()->create();
 
         $response = $this->actingAs($this->admin)
-            ->post(route('admin.donations.reject', $donation), [
+            ->post("/admin/donations/{$donation->id}/reject", [
                 'admin_notes' => 'Bukti transfer tidak jelas.',
             ]);
 
@@ -104,7 +107,7 @@ class DonationVerificationTest extends TestCase
         $donation = Donation::factory()->pending()->for($campaign)->create(['amount' => 500_000]);
 
         $this->actingAs($this->admin)
-            ->post(route('admin.donations.reject', $donation), [
+            ->post("/admin/donations/{$donation->id}/reject", [
                 'admin_notes' => 'Tidak valid.',
             ]);
 
@@ -123,7 +126,7 @@ class DonationVerificationTest extends TestCase
         $donation = Donation::factory()->pending()->for($campaign)->create(['amount' => 500_000]);
 
         $this->actingAs($this->admin)
-            ->post(route('admin.donations.verify', $donation));
+            ->post("/admin/donations/{$donation->id}/verify");
 
         $this->assertTrue($campaign->fresh()->isCompleted());
     }
@@ -133,7 +136,7 @@ class DonationVerificationTest extends TestCase
         $donation = Donation::factory()->verified()->create();
 
         $response = $this->actingAs($this->admin)
-            ->post(route('admin.donations.verify', $donation));
+            ->post("/admin/donations/{$donation->id}/verify");
 
         $response->assertRedirect();
         $response->assertSessionHas('error');
@@ -145,7 +148,7 @@ class DonationVerificationTest extends TestCase
         $donation = Donation::factory()->rejected()->create();
 
         $response = $this->actingAs($this->admin)
-            ->post(route('admin.donations.reject', $donation), [
+            ->post("/admin/donations/{$donation->id}/reject", [
                 'admin_notes' => 'Alasan baru.',
             ]);
 
@@ -158,7 +161,7 @@ class DonationVerificationTest extends TestCase
         $donation = Donation::factory()->pending()->create();
 
         $response = $this->actingAs($this->admin)
-            ->post(route('admin.donations.reject', $donation), [
+            ->post("/admin/donations/{$donation->id}/reject", [
                 'admin_notes' => '',
             ]);
 
@@ -167,7 +170,7 @@ class DonationVerificationTest extends TestCase
 
     public function test_guest_cannot_access_donation_routes(): void
     {
-        $response = $this->get(route('admin.donations.index'));
+        $response = $this->get('/admin/donations');
         $response->assertRedirect('/admin/login');
     }
 }

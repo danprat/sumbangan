@@ -7,11 +7,19 @@ use App\Models\Donation;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class DonationSubmissionTest extends TestCase
 {
     use LazilyRefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config(['app.url' => 'http://localhost']);
+        URL::forceRootUrl('http://localhost');
+    }
 
     public function test_donor_can_submit_valid_donation(): void
     {
